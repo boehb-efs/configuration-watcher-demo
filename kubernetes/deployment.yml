@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-watcher-demo
+  namespace: backend
+  labels:
+    app: config-watcher-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: config-watcher-demo
+      labels:
+        app: config-watcher-demo
+    spec:
+      serviceAccountName: config-watcher-demo-account
+      containers:
+        - name: config-watcher-demo
+          image: config-watcher-demo
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: secret-mount1
+              mountPath: "/etc/secrets1"
+              readOnly: true
+            - name: secret-mount2
+              mountPath: "/etc/secrets2"
+              readOnly: true
+          resources:
+            requests:
+              memory: 768Mi
+            limits:
+              memory: 768Mi
+          ports:
+            - containerPort: 8090
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /config-watcher-demo/actuator/health
+              port: 8090
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 1
+            successThreshold: 1
+      volumes:
+        - name: secret-mount1
+          secret:
+            secretName: demo-secret1
+        - name: secret-mount2
+          secret:
+            secretName: demo-secret2
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: config-watcher-demo

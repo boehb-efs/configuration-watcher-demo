@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-watcher-demo-service
+  namespace: backend
+spec:
+  selector:
+    app: config-watcher-demo
+  ports:
+    - port: 8090

@@ -1,0 +1,19 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /config-watcher-demo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [
+            prometheus,
+            health,
+            info,
+            refresh,
+            bus-refresh,
+            beans,
+            env
+        ]
+storageconnections:
+  test: asdf

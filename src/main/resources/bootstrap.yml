@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: demo-secret2
+  cloud:
+    kubernetes:
+      secrets:
+        enabled: true
+        paths:
+          - /etc/secrets1
+          - /etc/secrets2
+      config:
+        name: config-watcher-demo
+        namespace: backend
+      reload:
+        enabled: true
+        mode: event

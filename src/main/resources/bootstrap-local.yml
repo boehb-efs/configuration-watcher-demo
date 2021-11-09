@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: demo-secret2
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
